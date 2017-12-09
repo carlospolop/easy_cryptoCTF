@@ -99,7 +99,7 @@ class Bases_BF:
                     self.to_print.append("Bad char: "+char+" No base 32")
                     break
 
-        if self.bool_base64:
+        if self.bool_base32:
             self.to_print.append("Could be Base32")
 
         #Bruteforce
@@ -134,6 +134,7 @@ class Bases_BF:
         print "Usefull URLS:"
         for val in self.usefull_urls:
             print val
+        print
 
         if self.final_decrypt['base']['64'] != {}:
             print "---> Base64 <---"

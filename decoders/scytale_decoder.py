@@ -56,6 +56,7 @@ class Scytale_BF:
         print "Usefull URLS:"
         for val in self.usefull_urls:
             print val
+        print
     
         for key in self.final_decrypt['scytale'].keys():
             val = self.final_decrypt['scytale'][key]

@@ -12,7 +12,7 @@ def main(argv):
         print hlp
         sys.exit(2)
 
-    general_urls = ["Cyberchef: https://gchq.github.io/CyberChef/", "Muchos decoders: https://www.dcode.fr/tools-list", "BrainFuck:  http://esoteric.sange.fi/brainfuck/impl/interp/i.html", "Vigenere: https://www.guballa.de/vigenere-solver", "UuDecoder(begin <mode> <file><newline>): http://uuencode.online-domain-tools.com/"]
+    general_urls = ["Cyberchef: https://gchq.github.io/CyberChef/", "Muchos decoders: https://www.dcode.fr/tools-list", "BrainFuck:  http://esoteric.sange.fi/brainfuck/impl/interp/i.html", "Vigenere: https://www.guballa.de/vigenere-solver", "UuDecoder(begin <mode> <file><newline>): http://uuencode.online-domain-tools.com/", "Base 85: https://www.dcode.fr/ascii-85-encoding"]
     toDecrypt, search, outputfile = "", "", ""
     is_input_file, try_all, try_xor, try_base, try_caesar, try_scytale, print_each = False, True, False, False, False, False, True
 
@@ -128,6 +128,7 @@ def main(argv):
 
     #Search MODULE
     if search != "":
+        print 
         print "###### Search ######"
         if xorbf.get_found():
             print "!/\!/\!/\!/\!/\!/\! SEARCH FOUND IN NORMAL XOR"
