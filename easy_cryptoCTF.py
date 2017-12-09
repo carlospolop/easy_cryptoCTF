@@ -5,7 +5,7 @@ from subprocess import Popen, PIPE
 from decoders import XOR_cypher, Bases_BF, Caesar_BF, Scytale_BF #,Vigenere_BF
 
 def main(argv):
-    hlp = " -c <StringEncrypted> -f <inputfileEncrypted> -s <String_to_search> -x -b -e -t -f -n"
+    hlp = " -c <StringEncrypted> -f <inputfileEncrypted> -s <String_to_search> -x -b -e -t -d -n"
     try:
         opts, args = getopt.getopt(argv,"hc:s:f:xbetdn",["console=","search=","ifile=","xor","base","caesar","scytale","featherduster","noprint"])
     except getopt.GetoptError:
@@ -65,6 +65,8 @@ def main(argv):
         print hlp
         sys.exit(-1)
 
+    print "Text input: "+toDecrypt
+
     toDecrypt_i = toDecrypt[::-1]
 
     # XOR MODULE
@@ -97,6 +99,7 @@ def main(argv):
     if try_all or try_scytale:
         final_decrypt_scytale = sbf.bruteForce()            
         final_decrypt_scytale_i = sbf_i.bruteForce()
+
 
     # Featherduster MODULE
     f_stdout,f_stderr = "", ""
