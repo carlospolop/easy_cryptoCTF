@@ -12,6 +12,8 @@ def main(argv):
         print hlp
         sys.exit(2)
 
+    general_urls = ["Cyberchef: https://gchq.github.io/CyberChef/", "Muchos decoders: https://www.dcode.fr/tools-list", "BrainFuck:  http://esoteric.sange.fi/brainfuck/impl/interp/i.html", "Vigenere: https://www.guballa.de/vigenere-solver", "UuDecoder(begin <mode> <file><newline>): http://uuencode.online-domain-tools.com/", "Base 85: https://www.dcode.fr/ascii-85-encoding"]
+    crypto_tools = ["xortool - Uncypher Xor files using the frecuency of characters: https://github.com/hellman/xortool", "HashIdentifier: https://code.google.com/archive/p/hash-identifier/downloads", "HashKill: https://github.com/gat3way/hashkill", "CTF-Tools: https://github.com/zardus/ctf-tools"]
     toDecrypt, search, outputfile = "", "", ""
     is_input_file, try_all, try_xor, try_base, try_caesar, try_scytale, print_each = False, True, False, False, False, False, True
 
@@ -64,7 +66,7 @@ def main(argv):
         print hlp
         sys.exit(-1)
 
-    print "Text input: "+toDecrypt+"\n"
+    print "Text input: "+toDecrypt
 
     toDecrypt_i = toDecrypt[::-1]
 
@@ -123,11 +125,12 @@ def main(argv):
     print "###### General Usefull URLs ######"
     for url in general_urls:
         print url
+    for tool in crypto_tools:
+        print tool
     print "###### End URLs ######"
 
     #Search MODULE
     if search != "":
-        print 
         print "###### Search ######"
         if xorbf.get_found():
             print "!/\!/\!/\!/\!/\!/\! SEARCH FOUND IN NORMAL XOR"
