@@ -61,5 +61,4 @@ class Scytale_BF:
         for key in self.final_decrypt['scytale'].keys():
             val = self.final_decrypt['scytale'][key]
             print val +" --> ( "+key+" )"
-        print "###### Scytale END ######"
-        print
+        print "###### Scytale END ######\n"

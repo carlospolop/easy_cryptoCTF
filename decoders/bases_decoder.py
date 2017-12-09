@@ -127,14 +127,14 @@ class Bases_BF:
             print "###### Reverse Bases ######"
         else:
             print "###### Normal Bases ######"
-        
-        for val in self.to_print:
-            print val
-        
+
         print "Usefull URLS:"
         for val in self.usefull_urls:
             print val
         print
+        
+        for val in self.to_print:
+            print val
 
         if self.final_decrypt['base']['64'] != {}:
             print "---> Base64 <---"
@@ -150,5 +150,4 @@ class Bases_BF:
                 if all(c in string.printable for c in val):
                     print val +"  -->  ( "+key+" )"
 
-        print "###### Bases END ######"
-        print
+        print "###### Bases END ######\n"

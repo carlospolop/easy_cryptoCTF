@@ -65,7 +65,7 @@ def main(argv):
         print hlp
         sys.exit(-1)
 
-    print "Text input: "+toDecrypt
+    print "Text input: "+toDecrypt+"\n"
 
     toDecrypt_i = toDecrypt[::-1]
 

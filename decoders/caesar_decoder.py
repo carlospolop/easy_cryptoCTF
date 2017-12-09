@@ -61,5 +61,4 @@ class Caesar_BF:
         for key in self.final_decrypt['caesar'].keys():
             val = self.final_decrypt['caesar'][key]
             print val +" --> ( "+key+" )"
-        print "###### Caesar END ######"
-        print
+        print "###### Caesar END ######\n"

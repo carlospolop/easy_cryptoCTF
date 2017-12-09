@@ -1,8 +1,20 @@
 import string
 
+def check_type_buffer(buffer):
+    if(len(buffer)>2 and (buffer[:2] != "0x" and buffer[len(buffer)-2:len(buffer)] != "x0")):
+        return buffer.replace("\n", "")
+    
+    if buffer[:2] == "0x":
+        buffer = buffer.replace("0x", "")
+    else:
+        buffer = buffer.replace("x0", "")
+    split_hex = [buffer[x:x+2] for x in range(0, len(buffer),2)]
+    hex_list = [chr(int(hex_str, 16)) for hex_str in split_hex]
+    return hex_list
+
 class XOR_cypher:
     def __init__(self, buffer, is_reverse, search=None):
-        self.buffer = buffer.replace("\n", "")
+        self.buffer = check_type_buffer(buffer)
         self.is_reverse = is_reverse
         self.key = ord('\x00')
         self.final_decrypt = {}
@@ -19,8 +31,10 @@ class XOR_cypher:
         self.final_decrypt['xor']['key_subs_lastXORChar'] = {}
         self.final_decrypt['xor']['key_plus_lastXORChar'] = {}
 
+    
     def get_found(self):
         return self.found
+
     def get_found_array(self):
         return self.found_array
     
@@ -143,6 +157,4 @@ class XOR_cypher:
                 val = self.final_decrypt['xor'][val_key][second_key]
                 if all(c in string.printable for c in val):
                     print val +" --> ( "+second_key+" )"
-        print "######## XOR END ########"
-        print 
-        
+        print "######## XOR END ########\n"        
