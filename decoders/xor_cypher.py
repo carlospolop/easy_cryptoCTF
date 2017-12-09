@@ -1,13 +1,23 @@
 import string
 
 class XOR_cypher:
-    def __init__(self, buffer, search=None):
-        self.buffer = buffer
+    def __init__(self, buffer, is_reverse, search=None):
+        self.buffer = buffer.replace("\n", "")
+        self.is_reverse = is_reverse
         self.key = ord('\x00')
         self.final_decrypt = {}
         self.search = search
         self.found = False
         self.found_array = []
+
+        self.final_decrypt['xor'] = {}
+        self.final_decrypt['xor']['simple'] = {}
+        self.final_decrypt['xor']['key_lastChar'] = {}
+        self.final_decrypt['xor']['key_lastXORChar'] = {}
+        self.final_decrypt['xor']['key_subs_lastChar'] = {}
+        self.final_decrypt['xor']['key_plus_lastChar'] = {}
+        self.final_decrypt['xor']['key_subs_lastXORChar'] = {}
+        self.final_decrypt['xor']['key_plus_lastXORChar'] = {}
 
     def get_found(self):
         return self.found
@@ -24,7 +34,7 @@ class XOR_cypher:
         for val in self.found_array:
             print val
 
-    def simple(self):
+    def simple(self): #Hacemos Xor con la misma Key a todos
         final = ""
         key = self.key
         for char in self.buffer:
@@ -32,7 +42,7 @@ class XOR_cypher:
             final += chr(enc_char)
         return self.check_found(final)
 
-    def double(self):
+    def double(self): #Hacemos Xor probando todas las combinaciones de dos claves
         self.final_decrypt['xor']['double'] = {}
         key = self.key
         secKey = ord('\x00')
@@ -51,7 +61,7 @@ class XOR_cypher:
                 break
             secKey += 1
 
-    def key_lastChar(self):
+    def key_lastChar(self): #Hacemos xor usando como key el char anterior
         final = ""
         key = self.key
         for char in self.buffer:
@@ -60,7 +70,7 @@ class XOR_cypher:
             key = ord(char) & 0xff
         return self.check_found(final)
 
-    def key_lastXORChar(self):
+    def key_lastXORChar(self): #Hacemos xor usando como key el resultado del xor del char anterior
         final = ""
         key = self.key
         for char in self.buffer:
@@ -69,7 +79,7 @@ class XOR_cypher:
             key = enc_char
         return self.check_found(final)
 
-    def key_subs_lastChar(self):
+    def key_subs_lastChar(self): #Hacemos xor usando como key el resultado de la key anterior menos el char anterior
         final = ""
         key = self.key
         for char in self.buffer:
@@ -78,7 +88,7 @@ class XOR_cypher:
             key = key - ord(char) & 0xff
         return self.check_found(final)
 
-    def key_plus_lastChar(self):
+    def key_plus_lastChar(self): #Hacemos xor usando como key el resultado de la key anterior mas el char anterior
         final = ""
         key = self.key
         for char in self.buffer:
@@ -87,7 +97,7 @@ class XOR_cypher:
             key = key + ord(char) & 0xff
         return self.check_found(final)
 
-    def key_subs_lastXORChar(self):
+    def key_subs_lastXORChar(self): #Hacemos xor usando como key el resultado de la key anterior menos el charXOR anterior
         final = ""
         key = self.key
         for char in self.buffer:
@@ -96,7 +106,7 @@ class XOR_cypher:
             key = key - enc_char
         return self.check_found(final)
 
-    def key_plus_lastXORChar(self):
+    def key_plus_lastXORChar(self): #Hacemos xor usando como key el resultado de la key anterior mas el charXOR anterior
         final = ""
         key = self.key
         for char in self.buffer:
@@ -106,14 +116,6 @@ class XOR_cypher:
         return self.check_found(final)
 
     def bruteForce(self):
-        self.final_decrypt['xor'] = {}
-        self.final_decrypt['xor']['simple'] = {}
-        self.final_decrypt['xor']['key_lastChar'] = {}
-        self.final_decrypt['xor']['key_lastXORChar'] = {}
-        self.final_decrypt['xor']['key_subs_lastChar'] = {}
-        self.final_decrypt['xor']['key_plus_lastChar'] = {}
-        self.final_decrypt['xor']['key_subs_lastXORChar'] = {}
-        self.final_decrypt['xor']['key_plus_lastXORChar'] = {}
 
         while (True):
             self.final_decrypt['xor']['simple'][str(self.key)] = self.simple()
@@ -130,12 +132,17 @@ class XOR_cypher:
         return self.final_decrypt
 
     def mprint(self):
-        print "######## XOR ########"
+        if self.is_reverse:
+            print "###### Reverse XOR ######"
+        else:
+            print "###### Normal XOR ######"
+
         for val_key in self.final_decrypt['xor'].keys():
             print "\t ---> "+val_key+" <---"
-            for val in self.final_decrypt['xor'][val_key].values():
+            for second_key in self.final_decrypt['xor'][val_key].keys():
+                val = self.final_decrypt['xor'][val_key][second_key]
                 if all(c in string.printable for c in val):
-                    print val
+                    print val +" --> ( "+second_key+" )"
         print "######## XOR END ########"
         print 
         

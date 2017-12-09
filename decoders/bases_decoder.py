@@ -2,17 +2,26 @@ import base64
 import string
 
 class Bases_BF:
-    def __init__(self, buffer, search=None):
-        self.buffer = buffer
+    def __init__(self, buffer, is_reverse, search=None):
+        self.buffer = buffer.replace("\n", "")
+        self.is_reverse = is_reverse
         self.std_alphabet64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
         self.std_alphabet64_url = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
         self.std_alphabet32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
+        self.std_alphabet85 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-:+=^!/*?&<>()[]{}@%$#'
         self.bool_base64 = True
         self.bool_base32 = True
+        self.bool_base85 = True
         self.final_decrypt = {}
         self.search = search
         self.found = False
         self.found_array = []
+        self.to_print = []
+        self.usefull_urls = ["https://www.dcode.fr/ascii-85-encoding"]
+
+        self.final_decrypt['base'] = {}
+        self.final_decrypt['base']['64'] = {}
+        self.final_decrypt['base']['32'] = {}
 
     def get_found(self):
         return self.found
@@ -47,22 +56,53 @@ class Bases_BF:
         decode_trans = string.maketrans(custom_alphabet, self.std_alphabet32)
         return self.check_found(base64.b32decode(buffer.translate(decode_trans)))
 
+
     def bruteForce(self):
+        if (self.buffer[0] == "="):
+            self.bool_base64 = False
+            self.to_print.append("No base 64, inverse padding")
+            self.bool_base32 = False
+            self.to_print.append( "No base 32, inverse padding")
+
         for char in self.buffer:
-            if(not char in self.std_alphabet64 and char != "="):
+            if(not char in self.std_alphabet85):
+                self.bool_base85 = False
+                self.to_print.append("Bad char: "+char+" No base 85")
                 self.bool_base64 = False
+                self.to_print.append("Bad char: "+char+" No base 64")
                 self.bool_base32 = False
+                self.to_print.append("Bad char: "+char+" No base 32")
                 break
+        
+        if self.bool_base85:
+            if self.buffer[0] == "<":
+                self.to_print.append("Could be Base85 of Adobe")
+            else:
+                self.to_print.append("Could be Base85")
+
+        if self.bool_base64:
+            for char in self.buffer:
+                if(not char in self.std_alphabet64 and char != "="):
+                    self.bool_base64 = False
+                    self.to_print.append("Bad char: "+char+" No base 64")
+                    self.bool_base32 = False
+                    self.to_print.append("Bad char: "+char+" No base 32")
+                    break
+        
+        if self.bool_base64:
+            self.to_print.append("Could be Base64")
+
         if self.bool_base32:
             for char in self.buffer:
-                if(not char in self.std_alphabet32):
+                if(not char in self.std_alphabet32 and char != "="):
                     self.bool_base32 = False
+                    self.to_print.append("Bad char: "+char+" No base 32")
                     break
 
-        self.final_decrypt['base'] = {}
-        self.final_decrypt['base']['64'] = {}
-        self.final_decrypt['base']['32'] = {}
+        if self.bool_base64:
+            self.to_print.append("Could be Base32")
 
+        #Bruteforce
         if self.bool_base64:
             pad = 4 - (len(self.buffer) % 4)
             if pad == 4 or pad < 3:       
@@ -83,15 +123,31 @@ class Bases_BF:
         return self.final_decrypt
 
     def mprint(self):
-        print "###### Bases ######"
+        if self.is_reverse:
+            print "###### Reverse Bases ######"
+        else:
+            print "###### Normal Bases ######"
+        
+        for val in self.to_print:
+            print val
+        
+        print "Usefull URLS:"
+        for val in self.usefull_urls:
+            print val
+
         if self.final_decrypt['base']['64'] != {}:
             print "---> Base64 <---"
-            for val in self.final_decrypt['base']['64'].values():
+            for key in self.final_decrypt['base']['64'].keys():
+                val = self.final_decrypt['base']['64'][key]
                 if all(c in string.printable for c in val):
-                    print val
+                    print val +"  -->  ( "+key+" )"
+
         if self.final_decrypt['base']['32'] != {}:
             print "---> Base32 <---"
-            for val in self.final_decrypt['base']['32'].values():
+            for val in self.final_decrypt['base']['32'].keys():
+                val = self.final_decrypt['base']['64'][key]
                 if all(c in string.printable for c in val):
-                    print val
+                    print val +"  -->  ( "+key+" )"
+
         print "###### Bases END ######"
+        print
