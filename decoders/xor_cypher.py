@@ -67,7 +67,7 @@ class XOR_cypher:
                 enc_char = ord(self.buffer[i]) ^ key & 0xff
                 final += chr(enc_char)
                 if i+1 < len(self.buffer):
-                    sec_enc_char = ord(self.buffer[i+1]) ^ key & 0xff
+                    sec_enc_char = ord(self.buffer[i+1]) ^ secKey & 0xff
                     final += chr(sec_enc_char)
             self.final_decrypt['xor']['double'][str(self.key)+str(secKey)] = self.check_found(final)
 
