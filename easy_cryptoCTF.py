@@ -15,7 +15,7 @@ def main(argv):
     general_urls = ["Cyberchef: https://gchq.github.io/CyberChef/", "Muchos decoders: https://www.dcode.fr/tools-list", "BrainFuck:  http://esoteric.sange.fi/brainfuck/impl/interp/i.html", "Vigenere: https://www.guballa.de/vigenere-solver", "UuDecoder(begin <mode> <file><newline>): http://uuencode.online-domain-tools.com/", "Base 85: https://www.dcode.fr/ascii-85-encoding"]
     crypto_tools = ["xortool - Uncypher Xor files using the frecuency of characters: https://github.com/hellman/xortool", "HashIdentifier: https://code.google.com/archive/p/hash-identifier/downloads", "HashKill: https://github.com/gat3way/hashkill", "CTF-Tools: https://github.com/zardus/ctf-tools"]
     toDecrypt, search, outputfile = "", "", ""
-    is_input_file, try_all, try_xor, try_base, try_caesar, try_scytale, print_each = False, True, False, False, False, False, True
+    is_input_file, try_all, try_xor, try_base, try_caesar, try_scytale, try_featherduster, print_each = False, True, False, False, False, False, False, True
 
     for opt, arg in opts:
         if opt == '-h':
@@ -105,7 +105,7 @@ def main(argv):
     # Featherduster MODULE
     f_stdout,f_stderr = "", ""
     if (try_all or try_featherduster) and is_input_file:
-        pw = Popen("echo autopwn | featherduster "+ inputfile, stdout=PIPE, stderr=PIPE, shell=True)
+        pw = Popen("echo autopwn | python /home/pi/git/ctf-tools/featherduster/featherduster/featherduster/featherduster.py "+ inputfile, stdout=PIPE, stderr=PIPE, shell=True)
         f_stdout,f_stderr = pw.communicate()
 
 
