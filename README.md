@@ -1,7 +1,8 @@
 # easy_cryptoCTF
-Brute Force to easy encrypted strings and check if a string appear in any uncrypted string:
+Try to decrypt strings and files:
+```
 python easy_cryptoCTF.py -c <StringEncrypted> -f <inputfileEncrypted> -s <String_to_search> -x -b -e -t -d -n
-
+```
 ## XOR(-x)
 - [x] simple
 - [x] double
