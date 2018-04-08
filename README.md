@@ -27,5 +27,8 @@ python easy_cryptoCTF.py -c <StringEncrypted> -f <inputfileEncrypted> -s <String
 - [x] Ascii uppercase alphabet + ascii lowercase alphabet + digits
 
 ## Scytale(-t)
+- [x] Try to decrypt using all possible scytale numbers 
+
 ## Autopwn of Featherduster(-d)
+- [x] Executes Featherduster and shows the output 
 
