@@ -1,4 +1,5 @@
 import base64
+import base58
 import string
 
 class Bases_BF:
@@ -12,6 +13,7 @@ class Bases_BF:
         self.bool_base64 = True
         self.bool_base32 = True
         self.bool_base85 = True
+	self.bool_base58 = True
         self.final_decrypt = {}
         self.search = search
         self.found = False
@@ -58,6 +60,7 @@ class Bases_BF:
 
 
     def bruteForce(self):
+	self.to_print.append("Buffer: "+self.buffer)
         if (self.buffer[0] == "="):
             self.bool_base64 = False
             self.to_print.append("No base 64, inverse padding")
@@ -102,6 +105,13 @@ class Bases_BF:
         if self.bool_base32:
             self.to_print.append("Could be Base32")
 
+	if self.bool_base58:
+	    try:
+		self.to_print.append("Base58 --> "+str(base58.b58decode_check(self.buffer)))
+		self.to_print.append("Could be Base58")
+	    except:
+		self.to_print.append("No base 58")
+
         #Bruteforce
         if self.bool_base64:
             pad = 4 - (len(self.buffer) % 4)
@@ -145,8 +155,8 @@ class Bases_BF:
 
         if self.final_decrypt['base']['32'] != {}:
             print "---> Base32 <---"
-            for val in self.final_decrypt['base']['32'].keys():
-                val = self.final_decrypt['base']['64'][key]
+            for key in self.final_decrypt['base']['32'].keys():
+                val = self.final_decrypt['base']['32'][key]
                 if all(c in string.printable for c in val):
                     print val +"  -->  ( "+key+" )"
 

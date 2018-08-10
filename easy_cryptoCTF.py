@@ -105,7 +105,7 @@ def main(argv):
     # Featherduster MODULE
     f_stdout,f_stderr = "", ""
     if (try_all or try_featherduster) and is_input_file:
-        pw = Popen("echo autopwn | python /home/pi/git/ctf-tools/featherduster/featherduster/featherduster/featherduster.py "+ inputfile, stdout=PIPE, stderr=PIPE, shell=True)
+        pw = Popen("echo autopwn | /usr/local/bin/featherduster "+ inputfile, stdout=PIPE, stderr=PIPE, shell=True)
         f_stdout,f_stderr = pw.communicate()
 
 
