@@ -18,6 +18,7 @@ python easy_cryptoCTF.py -c <StringEncrypted> -f <inputfileEncrypted> -s <String
 - [x] Base 64 (all positions of the url safe alphabet)
 - [x] Base 32 (all positions of the typical alphabet)
 - [x] Check Base85
+- [x] Check Base58
 
 ## Caesar(-e)
 - [x] Ascii lowercase alphabet 
