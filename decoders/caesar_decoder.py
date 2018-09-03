@@ -48,6 +48,8 @@ class Caesar_BF:
         self.caesar_loop(alphabet)
         alphabet = string.ascii_uppercase + string.ascii_lowercase + string.digits
         self.caesar_loop(alphabet)
+        alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+        self.caesar_loop(alphabet)
 
         return self.final_decrypt
         
